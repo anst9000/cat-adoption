@@ -30,17 +30,29 @@ $pdo = null;
             <h6><?php echo htmlspecialchars($cat['cats_name']); ?></h6>
             <p><?php echo htmlspecialchars($cat['cats_breed']); ?></p>
           </div>
-          <div class="card-action right-align">
-            <a class="brand-text" href="details.php?id=<?php echo $cat['cats_id'] ?>">more info</a>
-          </div>
+
+          <?php
+          if (isset($_SESSION["userid"])) {
+          ?>
+            <div class="card-action center-align">
+              <a class="btn brand z-depth-0" href="details.php?id=<?php echo $cat['cats_id'] ?>">Info</a>
+            </div>
+          <?php
+          } else {
+          }
+          ?>
+
         </div>
       </div>
 
     <?php endforeach; ?>
 
   </div>
+
 </div>
 
 <?php include('templates/footer.php'); ?>
+
+<script src="main.js"></script>
 
 </html>

@@ -62,7 +62,7 @@ if (isset($_POST['submit'])) {
       <?php echo $errors['name'] ?? '' ?>
     </div>
 
-    <label>Ras på katten</label>
+    <label>Kattens ras</label>
     <input type="text" name="breed" value="<?php $temp = $_POST['breed'] ?? ''; ?><?php echo htmlspecialchars($temp) ?>" />
     <div class="error">
       <?php echo $errors['breed'] ?? '' ?>
@@ -75,7 +75,7 @@ if (isset($_POST['submit'])) {
     </div>
 
     <label>Bild på katten</label>
-    <input type="text" name="picture" value="<?php echo !empty($_POST['picture']) ? htmlspecialchars($_POST['picture']) : '' ?>" />
+    <input placeholder="Filens namn..." type="text" name="picture" value="<?php echo !empty($_POST['picture']) ? htmlspecialchars($_POST['picture']) : '' ?>" />
     <div class="error">
       <?php echo $errors['picture'] ?? '' ?>
     </div>
@@ -83,7 +83,9 @@ if (isset($_POST['submit'])) {
     <div class="center">
       <input type="submit" name="submit" value="Submit" class="btn brand z-depth-0">
     </div>
+
   </form>
+
 </section>
 
 <?php include('templates/footer.php'); ?>
