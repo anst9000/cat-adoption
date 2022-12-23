@@ -1,3 +1,5 @@
+<?php include('templates/header.php'); ?>
+
 <?php
 
 include('config/db_connect.php');
@@ -11,48 +13,39 @@ $cats = $stmt->fetchAll();
 $pdo = null;
 ?>
 
-<!DOCTYPE html>
-<html>
-
-<?php include('templates/header.php'); ?>
-
-<h4 class="center grey-text">Katter utan familj</h4>
 
 <div class="container">
+  <h2>Katter utan familj</h2>
+
   <div class="row">
+    <div class="col">
 
-    <?php foreach ($cats as $cat) : ?>
+      <?php foreach ($cats as $cat) : ?>
 
-      <div class="col s6 m4">
-        <div class="card z-depth-0">
-          <img src="img/cat-profile.svg" class="cat">
-          <div class="card-content center">
-            <h6><?php echo htmlspecialchars($cat['cats_name']); ?></h6>
-            <p><?php echo htmlspecialchars($cat['cats_breed']); ?></p>
+        <div class="card">
+          <div class="card-top">
+            <img src="<?php echo 'img/' . htmlspecialchars($cat['cats_picture']); ?>" alt="<?php echo htmlspecialchars($cat['cats_name']); ?>" width="200" height="200">
           </div>
 
-          <?php
-          if (isset($_SESSION["userid"])) {
-          ?>
-            <div class="card-action center-align">
-              <a class="btn brand z-depth-0" href="details.php?id=<?php echo $cat['cats_id'] ?>">Info</a>
+          <div class="card-body">
+            <h3><span>Namn: </span><?php echo htmlspecialchars($cat['cats_name']); ?></h3>
+            <p class="breed"><span>Ras: </span><?php echo htmlspecialchars($cat['cats_breed']); ?></p>
+          </div>
+
+          <?php if (isset($_SESSION["username"])) { ?>
+            <div class="card-bottom">
+              <a href="details.php?id=<?php echo $cat['cats_id'] ?>" class="a-details">
+                <button class="btn-details">
+                  Info
+                </button>
+              </a>
             </div>
-          <?php
-          } else {
-          }
-          ?>
-
+          <?php } ?>
         </div>
-      </div>
 
-    <?php endforeach; ?>
-
+      <?php endforeach; ?>
+    </div>
   </div>
-
 </div>
 
 <?php include('templates/footer.php'); ?>
-
-<script src="main.js"></script>
-
-</html>

@@ -2,18 +2,18 @@
 
 $servername = "localhost";
 $username = "coltla";
-$password = "jSjDyE[t8jLABDel";
+$password = "g!sV3sil9PReCDB1";
 $database = "kattadoption";
 
 // connect to the database using PDO
-$dsn = "mysql:host=$servername;dbname=$database;charset=UTF8";
+$conn = "mysql:host=$servername;dbname=$database;charset=UTF8";
 
 try {
-  $pdo = new PDO($dsn, $username, $password);
+  $pdo = new PDO($conn, $username, $password);
 
   if ($pdo) {
     // echo "Connected to the $database database successfully!";
   }
-} catch (PDOException $e) {
-  echo $e->getMessage();
+} catch (PDOException $ex) {
+  echo $ex->getMessage();
 }

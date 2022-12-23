@@ -1,12 +1,12 @@
 <?php
 
-// Create a pizza validator class to handle validation
+// Create a cat validator class to handle validation
 class CatValidator
 {
   // Member variables
   private $data;
   private $errors = [];
-  private static $fields = ['name', 'breed', 'info', 'picture'];
+  private static $fields = ['name', 'info', 'picture'];
 
   // Constructor which takes in POST data from the form
   public function __construct($post_data)
@@ -18,6 +18,7 @@ class CatValidator
   {
     // Check 'required fields'-presence in the data
     foreach (self::$fields as $field) {
+
       if (!array_key_exists($field, $this->data)) {
         trigger_error("$field is not present in data");
         return;
@@ -48,12 +49,9 @@ class CatValidator
   // Create a method to validate the breed
   private function validateBreed()
   {
-    // Trim out any white space
-    $val = trim($this->data['breed']);
-
-    // Is the value empty
-    if (empty($val)) {
-      $this->addError('breed', 'breed cannot be empty');
+    $option = isset($_POST['breed']) ? $_POST['breed'] : false;
+    if (!$option) {
+      $this->addError('breed', 'breed must have a value');
     }
   }
 

@@ -3,15 +3,12 @@
 include('config/db_connect.php');
 
 require('cat_validator.php');
+require('cats_list.php');
 
 $errors = [];
-// $nameError = '';
-// $breedError = '';
-// $infoError = '';
-// $pictureError = '';
-
 if (isset($_POST['submit'])) {
-  // validate pizza entries
+
+  // validate cat entries
   $cat_validation = new CatValidator($_POST);
   $errors = $cat_validation->validateForm();
 
@@ -30,7 +27,7 @@ if (isset($_POST['submit'])) {
     $picture = htmlspecialchars($_POST["picture"]);
 
     // create sql
-    $sql = "INSERT INTO pizzas('name', 'breed', 'info', 'picture') VALUES(?, ?, ?, ?)";
+    $sql = "INSERT INTO `cats` (cats_name, cats_breed, cats_info, cats_picture) VALUES(?, ?, ?, ?);";
     $stmt = $pdo->prepare($sql);
 
     // save to db and check
@@ -47,41 +44,62 @@ if (isset($_POST['submit'])) {
 
 ?>
 
-<!DOCTYPE html>
-<html>
-
 <?php include('templates/header.php'); ?>
 
-<section class="container grey-text">
-  <h4 class="center">Lägg till en katt</h4>
-  <form class="white" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST">
+<section class="container add">
+  <form id="cat-form" class="add-form" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" method="POST">
+    <h4 class="">Lägg till en katt</h4>
 
-    <label>Kattens namn</label>
-    <input type="text" name="name" value="<?php $temp = $_POST['name'] ?? ''; ?><?php echo htmlspecialchars($temp) ?>" />
-    <div class="error">
-      <?php echo $errors['name'] ?? '' ?>
+    <div class="form-group">
+      <label for="name">Kattens namn</label>
+      <input <?php if (isset($errors['name'])) {
+                echo 'class="input-error"';
+              } ?> placeholder="Fyll i kattens namn..." type="text" name="name" id="name" value="<?php echo !empty($_POST['name']) ? htmlspecialchars($_POST['name']) : '' ?>" />
+      <div class="error">
+        <?php echo $errors['name'] ?? '' ?>
+      </div>
     </div>
 
-    <label>Kattens ras</label>
-    <input type="text" name="breed" value="<?php $temp = $_POST['breed'] ?? ''; ?><?php echo htmlspecialchars($temp) ?>" />
-    <div class="error">
-      <?php echo $errors['breed'] ?? '' ?>
+    <div class="form-group">
+      <label for="breed">Kattens ras</label>
+      <select <?php if (isset($errors['breed'])) {
+                echo 'class="input-error"';
+              } ?> form="cat-form" name="breed" id="breed" value="<?php echo !empty($_POST['breed']) ? htmlspecialchars($_POST['breed']) : '' ?>">
+        <option value="" disabled selected>Välj ras</option>
+        <?php
+        foreach ($cats_list as $cat) {
+          echo "<option value='" . $cat . "'>" . $cat . "</option>";
+        }
+        ?>
+      </select>
+      <div class="error">
+        <?php echo $errors['breed'] ?? '' ?>
+      </div>
     </div>
 
-    <label>Information om katten</label>
-    <input type="text" name="info" value="<?php echo !empty($_POST['info']) ? htmlspecialchars($_POST['info']) : '' ?>" />
-    <div class="error">
-      <?php echo $errors['info'] ?? '' ?>
+    <div class="form-group">
+      <label for="info">Information om katten</label>
+      <textarea <?php if (isset($errors['info'])) {
+                  echo 'class="input-error"';
+                } ?> placeholder="Information om katten som ska adopteras..." id="info" rows="4" cols="50" name="info" value="<?php echo !empty($_POST['info']) ? htmlspecialchars($_POST['info']) : '' ?>;"></textarea>
+
+      <div class="error">
+        <?php echo $errors['info'] ?? '' ?>
+      </div>
     </div>
 
-    <label>Bild på katten</label>
-    <input placeholder="Filens namn..." type="text" name="picture" value="<?php echo !empty($_POST['picture']) ? htmlspecialchars($_POST['picture']) : '' ?>" />
-    <div class="error">
-      <?php echo $errors['picture'] ?? '' ?>
+    <div class="form-group">
+      <label for="picture">Bild på katten</label>
+      <input <?php if (isset($errors['picture'])) {
+                echo 'class="input-error"';
+              } ?> placeholder="Filens namn..." type="text" name="picture" id="picture" value="<?php echo !empty($_POST['picture']) ? htmlspecialchars($_POST['picture']) : '' ?>" />
+      <div class="error">
+        <?php echo $errors['picture'] ?? '' ?>
+      </div>
     </div>
 
-    <div class="center">
-      <input type="submit" name="submit" value="Submit" class="btn brand z-depth-0">
+    <div class="button add-cat">
+      <input type="submit" name="submit" value="Skicka" class="btn">
     </div>
 
   </form>
@@ -89,5 +107,3 @@ if (isset($_POST['submit'])) {
 </section>
 
 <?php include('templates/footer.php'); ?>
-
-</html>
