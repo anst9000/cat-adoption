@@ -12,38 +12,53 @@
   <?php
 
   session_start();
-
   require('config/db_connect.php');
 
   // When form submitted, insert values into the database.
   if (isset($_POST['submit'])) {
-    try {
-      $alias = htmlspecialchars($_POST["alias"]);
-      $email = htmlspecialchars($_POST["email"]);
-      $password = htmlspecialchars($_POST["password"]);
-      // echo ('alias = ' . $alias . '</br>');
-      // echo ('email = ' . $email . '</br>');
-      // echo ('password = ' . $password . '</br>');
+    if ($_POST['alias'] == "" || $_POST['email'] == "" || $_POST['password'] == "") {
+      echo "<div class='credentials'>
+              <h3>Required fields are missing.</h3><br />
+              <a href='register.php'>
+                <button class='btn-again'>Register</button>
+              </a>
+            </div>";
+    } else {
 
-      $query = "INSERT into `users` (users_alias, users_email, users_pwd) VALUES (?, ?, ?)";
-      $hashed_pwd = password_hash($password, PASSWORD_DEFAULT);
+      try {
+        $alias = htmlspecialchars($_POST["alias"]);
+        $email = htmlspecialchars($_POST["email"]);
+        $password = htmlspecialchars($_POST["password"]);
+        // echo ('alias = ' . $alias . '</br>');
+        // echo ('email = ' . $email . '</br>');
+        // echo ('password = ' . $password . '</br>');
 
-      $stmt = $pdo->prepare($query);
-      $result = $stmt->execute(array($alias, $email, $hashed_pwd));
+        $query = "INSERT into `users` (users_alias, users_email, users_pwd) VALUES (?, ?, ?)";
+        $hashed_pwd = password_hash($password, PASSWORD_DEFAULT);
 
-      if ($result) {
-        echo "<div class='form'>
-                <h3>You are registered successfully.</h3><br/>
-                <p class='link'>Click here to <a href='login.php'>Login</a></p>
+        $stmt = $pdo->prepare($query);
+        $result = $stmt->execute(array($alias, $email, $hashed_pwd));
+
+        if ($result) {
+          echo "<div class='credentials'>
+                  <h3>You are registered successfully.</h3><br />
+                  <a href='login.php'>
+                    <button class='btn-again'>Login</button>
+                  </a>
                 </div>";
-      } else {
-        echo "<div class='form'>
-                <h3>Required fields are missing.</h3><br/>
-                <p class='link'>Click here to <a href='registration.php'>registration</a> again.</p>
+          // header("location: login.php");
+        } else {
+          echo "<div class='credentials'>
+                  <h3>Something went wrong</h3><br />
+                  <a href='register.php'>
+                    <button class='btn-again'>Register</button>
+                  </a>
                 </div>";
+          // header("location: login.php");
+        }
+      } catch (PDOException $e) {
+        echo $e->getMessage();
       }
-    } catch (PDOException $e) {
-      echo $e->getMessage();
     }
 
     // close connection
@@ -94,12 +109,9 @@
         </div>
 
       </form>
-
     </section>
 
-  <?php
-  }
-  ?>
+  <?php } ?>
 </body>
 
 </html>

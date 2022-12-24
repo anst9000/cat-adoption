@@ -6,16 +6,6 @@ if ($_SERVER['QUERY_STRING'] == 'noname') {
   //unset($_SESSION['name']);
   session_unset();
 }
-
-// null coalesce
-// $name = $_SESSION['name'] ?? 'Guest';
-
-// $_SESSION["userid"] = $user[0]["users_id"];
-// $_SESSION["useralias"] = $user[0]["users_alias"];
-// $_SESSION['username'] = $fetch['username'];
-// $_SESSION['userid'] = $fetch['userid'];
-
-
 ?>
 
 <!DOCTYPE html>
@@ -42,12 +32,16 @@ if ($_SERVER['QUERY_STRING'] == 'noname') {
           </div>
 
           <ul>
-            <li class="nav-link">
-              <a href="add.php" class="button">Ny katt</a>
-            </li>
-            <li class="nav-link">
-              <a href="logout.php" class="button">LOGGA UT</a>
-            </li>
+            <a href="logout.php" class="button">
+              <li class="nav-link">
+                LOGGA UT
+              </li>
+            </a>
+            <a href="add.php" class="button">
+              <li class="nav-link">
+                Ny katt
+              </li>
+            </a>
 
           <?php } else { ?>
 

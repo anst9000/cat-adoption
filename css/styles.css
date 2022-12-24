@@ -27,6 +27,7 @@ img {
 
 body {
   background-color:#111111;
+  color: white;
 }
 
 .page-content {
@@ -42,6 +43,7 @@ body {
 .container {
   max-width: 900px;
   margin: 0 auto 2rem auto;
+  color: black;
 }
 
 .container h2 {
@@ -53,8 +55,10 @@ body {
 .topnav {
   background-color: #111;
   height: 3rem;
-  display: grid;
-  grid-template-columns: 3fr 1fr 5fr;
+  display: flex;
+  justify-content: space-between;
+  /* display: grid;
+  grid-template-columns: 3fr 1fr 5fr; */
 }
 
 .topnav .button {
@@ -86,8 +90,8 @@ body {
   overflow: hidden;
 }
 
-
 li.nav-link {
+  color: white;
   background-color: #333333;
   display: block;
   text-align: center;
@@ -237,6 +241,21 @@ textarea {
   font-family: Roboto, Arial, "Helvetica Neue", Helvetica, sans-serif;
 }
 
+.credentials {
+  width: 450px;
+  height: 150px;
+  margin: 7rem auto;
+  padding: 1rem 1rem;
+  border: 1px solid white;
+}
+
+.credentials h3 {
+  font-size: 1.75rem;
+}
+.credentials p {
+  font-size: 1.25rem;
+}
+
 .add-form,
 .register-form,
 .login-form {
@@ -301,11 +320,15 @@ input[type=submit]:hover {
   justify-content: space-around;
 }
 
-.btn-back, .btn-adopt {
+.btn-back, .btn-adopt, .btn-again {
   width: 25%;
   padding: 8px 16px;
   text-decoration: none;
   margin: 0 1rem;
+}
+
+.btn-again {
+  border: 1px solid white;
 }
 
 .login-person > input[type=submit],

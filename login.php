@@ -16,36 +16,46 @@
 
   // When form submitted, insert values into the database.
   if (isset($_POST['submit'])) {
-    $alias = $_POST['alias'];
-    $password = $_POST['password'];
-    $hashed_pwd = password_hash($password, PASSWORD_DEFAULT);
-
-    var_dump('--> alias = ' . $alias . '</br>');
-    var_dump('--> password = ' . $password . '</br>');
-    var_dump('--> hashed_pwd = ' . $hashed_pwd . '</br>');
-
-    $alias = $_POST['alias'];
-    $password = $_POST['password'];
-    $hashed_pwd = password_hash($password, PASSWORD_DEFAULT);
-
-    $query = "SELECT * FROM `users` WHERE `users_alias` = ?;";
-
-    $stmt = $pdo->prepare($query);
-    $result = $stmt->execute(array($alias));
-
-    // Get user from DB
-    $user = $stmt->fetch();
-
-    if (password_verify($password, $user['users_pwd'])) {
-      $_SESSION['username'] = $user['users_alias'];
-      $_SESSION['userid'] = $user['users_id'];
-      header("location: index.php");
+    if ($_POST['alias'] == "" || $_POST['password'] == "") {
+      echo "<div class='credentials'>
+                <h3>Required fields are missing.</h3><br />
+                <a href='login.php'>
+                  <button class='btn-again'>Login</button>
+                </a>
+            </div>";
     } else {
-      echo 'Invalid username or password';
-    }
+      $alias = $_POST['alias'];
+      $password = $_POST['password'];
+      $hashed_pwd = password_hash($password, PASSWORD_DEFAULT);
 
-    // close connection
-    $pdo = null;
+      $alias = $_POST['alias'];
+      $password = $_POST['password'];
+      $hashed_pwd = password_hash($password, PASSWORD_DEFAULT);
+
+      $query = "SELECT * FROM `users` WHERE `users_alias` = ?;";
+
+      $stmt = $pdo->prepare($query);
+      $result = $stmt->execute(array($alias));
+
+      // Get user from DB
+      $user = $stmt->fetch();
+
+      if ($user && password_verify($password, $user['users_pwd'])) {
+        $_SESSION['username'] = $user['users_alias'];
+        $_SESSION['userid'] = $user['users_id'];
+        header("location: index.php");
+      } else {
+        echo "<div class='credentials'>
+                <h3>Invalid username or password.</h3><br />
+                <a href='login.php'>
+                  <button class='btn-again'>Login</button>
+                </a>
+              </div>";
+      }
+
+      // close connection
+      $pdo = null;
+    }
   } else {
 
   ?>
