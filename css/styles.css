@@ -206,11 +206,11 @@ h4 {
 }
 
 .cat-img {
-  max-width:100%;
+  max-width: 100%;
 }
 
 form {
-  max-width: 460px;
+  max-width: 500px;
   margin: 20px auto;
   padding: 1.25rem 1rem;
 }
@@ -258,7 +258,8 @@ textarea {
 
 .add-form,
 .register-form,
-.login-form {
+.login-form,
+.upload-form {
   border-radius: 5px;
   background-color: #f2f2f2;
 }
@@ -287,7 +288,7 @@ textarea.input-error {
 .cat-details {
   background-color:#b3c7cc;
   color: #222222;
-  border: 1px solid pink;
+  border: 1px solid black;
   display: grid;
 
   grid-template-columns: 1fr 1fr;
@@ -295,8 +296,14 @@ textarea.input-error {
   margin-bottom: 2rem;
 }
 
+.upload-file {
+  display: flex;
+  align-items: center;
+}
+
 button,
-input[type=submit] {
+input[type=submit],
+.custom-file-upload {
   background-color: black;
   display: inline-block;
   border: none;
@@ -310,9 +317,29 @@ input[type=submit] {
   font-size: 22px;
 }
 
+.custom-file-upload {
+  height: 2.75rem;
+}
+
 button:hover,
-input[type=submit]:hover {
+input[type=submit]:hover,
+input[type=file]:hover {
   opacity: 0.7;
+}
+
+input[type=file] {
+  display: none;
+}
+
+#file-selected {
+  height: 1.75rem;
+  min-height: 1.75rem;
+  width: 12rem;
+  margin: 1rem auto 0;
+  text-align: center;
+  font-size: 1.25rem;
+  border: 1px solid black;
+  background-color: lightgoldenrodyellow;
 }
 
 .btn-group {
@@ -332,6 +359,7 @@ input[type=submit]:hover {
 }
 
 .login-person > input[type=submit],
+.upload-file > input[type=submit],
 .register-person > input[type=submit],
 .add-cat > input[type=submit]
 {

@@ -6,7 +6,7 @@ class CatValidator
   // Member variables
   private $data;
   private $errors = [];
-  private static $fields = ['name', 'info', 'picture'];
+  private static $fields = ['name', 'info'];
 
   // Constructor which takes in POST data from the form
   public function __construct($post_data)
@@ -42,7 +42,7 @@ class CatValidator
 
     // Is the value empty
     if (empty($val)) {
-      $this->addError('name', 'name cannot be empty');
+      $this->addError("name", "Fältet får inte vara tomt.");
     }
   }
 
@@ -51,7 +51,7 @@ class CatValidator
   {
     $option = isset($_POST['breed']) ? $_POST['breed'] : false;
     if (!$option) {
-      $this->addError('breed', 'breed must have a value');
+      $this->addError("breed", "Fältet måste ha ett värde.");
     }
   }
 
@@ -62,18 +62,15 @@ class CatValidator
 
     // Is the value empty
     if (empty($val)) {
-      $this->addError('info', 'info cannot be empty');
+      $this->addError("info", "Fältet får inte vara tomt.");
     }
   }
 
   private function validatePicture()
   {
-    // Trim out any white space
-    $val = trim($this->data['picture']);
-
-    // Is the value empty
-    if (empty($val)) {
-      $this->addError('picture', 'picture cannot be empty');
+    $option = isset($_POST['picture']) ? $_POST['picture'] : false;
+    if (!$option) {
+      $this->addError("picture", "Fältet måste ha ett värde.");
     }
   }
 

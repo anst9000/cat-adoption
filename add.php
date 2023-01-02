@@ -3,7 +3,10 @@
 include('config/db_connect.php');
 
 require('cat_validator.php');
-require('cats_list.php');
+require('res/cats_list.php');
+
+$dir = "img";
+$files = scandir($dir);
 
 $errors = [];
 if (isset($_POST['submit'])) {
@@ -33,7 +36,7 @@ if (isset($_POST['submit'])) {
     // save to db and check
     if (!$stmt->execute(array($name, $breed, $info, $picture))) {
       $stmt = null;
-      header("location: index.php?error=stmtfailed");
+      // header("location: index.php?error=stmtfailed");
       exit();
     } else {
       $stmt = null;
@@ -64,7 +67,7 @@ if (isset($_POST['submit'])) {
       <label for="breed">Kattens ras</label>
       <select <?php if (isset($errors['breed'])) {
                 echo 'class="input-error"';
-              } ?> form="cat-form" name="breed" id="breed" value="<?php echo !empty($_POST['breed']) ? htmlspecialchars($_POST['breed']) : '' ?>">
+              } ?> name="breed" id="breed" value="<?php echo !empty($_POST['breed']) ? htmlspecialchars($_POST['breed']) : '' ?>">
         <option value="" disabled selected>Välj ras</option>
         <?php
         foreach ($cats_list as $cat) {
@@ -90,17 +93,32 @@ if (isset($_POST['submit'])) {
 
     <div class="form-group">
       <label for="picture">Bild på katten</label>
-      <input <?php if (isset($errors['picture'])) {
+      <select <?php if (isset($errors['picture'])) {
                 echo 'class="input-error"';
-              } ?> placeholder="Filens namn..." type="text" name="picture" id="picture" value="<?php echo !empty($_POST['picture']) ? htmlspecialchars($_POST['picture']) : '' ?>" />
+              } ?> name="picture" id="picture" value="<?php echo !empty($_POST['picture']) ? htmlspecialchars($_POST['picture']) : '' ?>">
+        <option value="" disabled selected>Välj bildfil</option>
+        <?php
+        // Loopar igenom alla filer i img-mappen
+        foreach ($files as $file) {
+          if ($file == "." || $file == "..") continue;
+          echo "<option value='" . $file . "'>" . $file . "</option>";
+        }
+        ?>
+      </select>
       <div class="error">
         <?php echo $errors['picture'] ?? '' ?>
       </div>
     </div>
 
-    <div class="button add-cat">
-      <input type="submit" name="submit" value="Skicka" class="btn">
+    <div class="btn-group">
+      <div class="button add-cat">
+        <input type="submit" name="submit" value="Skicka" class="btn">
+      </div>
+      <a href="index.php" class="a-back">
+        <button type="button" class="btn-back">Gå tillbaka ></button>
+      </a>
     </div>
+
 
   </form>
 

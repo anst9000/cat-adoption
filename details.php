@@ -33,15 +33,17 @@ if (isset($_GET['id'])) {
       </div>
     </div>
     <!-- ADOPT FORM -->
-    <form class="btn-group" action="adopt.php" method="POST">
+    <form class="cat-form" action="adopt.php" method="POST">
       <input type="hidden" name="id_to_adopt" value="<?php echo $cat['cats_id']; ?>">
       <input type="hidden" name="name_to_adopt" value="<?php echo $cat['cats_name']; ?>">
       <input type="hidden" name="picture_to_adopt" value="<?php echo $cat['cats_picture']; ?>">
+      <input type="hidden" name="breed_to_adopt" value="<?php echo $cat['cats_breed']; ?>">
+      <input type="hidden" name="info_to_adopt" value="<?php echo $cat['cats_info']; ?>">
 
       <div class="btn-group login-person">
         <input class="btn" type="submit" name="adopt" value="Adoptera">
         <a href="index.php" class="a-back">
-          <button class="btn-back">Gå tillbaka ></button>
+          <button type="button" class="btn-back">Gå tillbaka ></button>
         </a>
       </div>
     </form>

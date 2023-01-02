@@ -43,6 +43,14 @@ if ($_SERVER['QUERY_STRING'] == 'noname') {
               </li>
             </a>
 
+            <?php if ($_SESSION["username"] == "skrutte") { ?>
+              <a href="upload.php" class="button">
+                <li class="nav-link">
+                  Ny bild
+                </li>
+              </a>
+            <?php } ?>
+
           <?php } else { ?>
 
             <li class="nav-link">
